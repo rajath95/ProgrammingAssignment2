@@ -1,15 +1,41 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Here Make Cache Matrix has functions that can CREATE a matrix and can cache INVERSE of a matrix
 
-## Write a short comment describing this function
+
+## It can accept the value which is stored in x .
+## M is initially set to null . globally and in the function environment .
+## Set function is used to set the value of y
+## while get function is used to print the value of m
+## setinv houses store solve function . here we use <<- which assigns the value from the global envt 
+## get inv prints the answer
 
 makeCacheMatrix <- function(x = matrix()) {
-
+  
+  m <- NULL
+  set <- function(y) {
+    x <<- y
+    m <<- NULL
+  }
+  get <- function() x
+  setinv <- function(solve) m <<- solve
+  getinv <- function() m
+  list(set = set, get = get,
+       setinv = setinv,
+       getinv = getinv)
 }
 
 
-## Write a short comment describing this function
+## cacheSolve is used to compute the inverse of a matrix object returned by the pevious function
+## but only if the value has not been calculated before , then the cache value is entered.
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
-}
+    m <- x$getinv()
+    if(!is.null(m)) {
+      message("getting cached data")
+      return(m)
+    }
+    data <- x$get()
+    m <- solve(data, ...)
+    x$setinv(m)
+    m
+  }
+## Return a matrix that is the inverse of <->'x'
